@@ -88,17 +88,8 @@ then
     echo "pi:$FULLPAGEOS_OVERRIDE_PASSWORD" | chpasswd
 fi
 
-# Set up x11vnc
-sudo -u pi /home/pi/scripts/setX11vncPass raspberry
-if [ ! -f /home/pi/.vnc/passwd ]; then
-  echo "/home/pi/.vnc/passwd was not created. Trying again."
-  sudo -u pi /home/pi/scripts/setX11vncPass raspberry
-  if [ ! -f /home/pi/.vnc/passwd ]; then
-    echo "/home/pi/.vnc/passwd was not created again. Giving up."
-    echo "Failed to set a VNC password. Aborting build."
-    exit 1
-  fi
-fi
+#Enable x11vnc service
+systemctl enable x11vnc.service
 
 #echo "sudo -u pi startx /home/pi/scripts/run_onepageos &" >> /etc/rc.local
 #echo "(sleep 15 ; sudo -u pi /home/pi/scripts/fullscreen) &" >> /etc/rc.local
