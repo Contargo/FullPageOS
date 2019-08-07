@@ -1,4 +1,14 @@
 #!/bin/bash
+
+if [ ! -f /home/pi/.vnc/passwd ]; then
+
+    echo "/home/pi/.vnc/passwd not found, creating new random password for vnc"
+    RANDOM_PASSWORD=$(dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev)
+    sudo -u pi /home/pi/scripts/setX11vncPass echo RANDOM_PASSWORD
+    exit 1
+
+fi
+
 x11vnc -many -rfbauth /home/pi/.vnc/passwd &
 while true
 do
